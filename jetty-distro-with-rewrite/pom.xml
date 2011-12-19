@@ -35,7 +35,7 @@
                   <version>${jetty-version}</version>
                   <type>zip</type>
                   <overWrite>true</overWrite>
-                  <excludes>**/log4j.properties</excludes>
+                  <excludes>**/log4j.properties,**/contexts/**,**/webapps/**</excludes>
                 </artifactItem>
               </artifactItems>
               <outputAbsoluteArtifactFilename>true</outputAbsoluteArtifactFilename>
@@ -45,13 +45,22 @@
             </configuration>
           </execution>
           <execution>
-            <id>install-logback</id>
+            <id>install-test-webapp</id>
             <phase>generate-resources</phase>
             <goals>
-              <goal>copy-dependencies</goal>
+              <goal>copy</goal>
             </goals>
             <configuration>
-              <outputDirectory>${distro-dir}/jetty-distribution-${jetty-version}/lib/logging</outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.eclipse.jetty.examples</groupId>
+                  <artifactId>rewrite-webapp</artifactId>
+                  <version>${project.version}</version>
+                  <type>war</type>
+                  <destFileName>rewrite-webapp.war</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${distro-dir}/jetty-distribution-${jetty-version}/webapps</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>true</overWriteSnapshots>
               <overWriteIfNewer>true</overWriteIfNewer>
